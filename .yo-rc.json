@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.13.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "sr-kable-submission-form",
+    "libraryId": "3f8bf2d6-3c3f-4512-84a1-73b1ca0024a4",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "SRKableSubmissionForm",
+    "solutionShortDescription": "SRKableSubmissionForm description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

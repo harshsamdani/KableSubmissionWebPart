@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sr-kable-submission-form-client-side-solution",
+    "id": "3f8bf2d6-3c3f-4512-84a1-73b1ca0024a4",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "SRKableSubmissionForm description"
+      },
+      "longDescription": {
+        "default": "SRKableSubmissionForm description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "sr-kable-submission-form Feature",
+        "description": "The feature that activates elements of the sr-kable-submission-form solution.",
+        "id": "335c91d6-3146-4334-8c60-623a292b2237",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/sr-kable-submission-form.sppkg"
+  }
+}

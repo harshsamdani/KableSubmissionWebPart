@@ -1,0 +1,45 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+
+.container {
+  max-width: 820px;
+  padding: 24px;
+  font-family: $ms-font-family-fallbacks;
+}
+
+.sectionCard {
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  padding: 16px;
+  background: #fafafa;
+}
+
+.itemCard {
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  padding: 16px;
+  background: #ffffff;
+  position: relative;
+
+  &:hover {
+    border-color: #0078d4;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.imagePreview {
+  height: 48px;
+  width: auto;
+  border-radius: 2px;
+  object-fit: cover;
+  border: 1px solid #e1e1e1;
+}
+
+.richTextWrapper {
+  border: 1px solid #c8c6c4;
+  border-radius: 2px;
+  min-height: 120px;
+
+  &:focus-within {
+    border-color: #0078d4;
+  }
+}
