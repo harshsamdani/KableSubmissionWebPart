@@ -3,7 +3,7 @@
   "solution": {
     "name": "sr-kable-submission-form-client-side-solution",
     "id": "3f8bf2d6-3c3f-4512-84a1-73b1ca0024a4",
-    "version": "1.0.0.0",
+    "version": "1.0.4.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -16,10 +16,10 @@
     },
     "metadata": {
       "shortDescription": {
-        "default": "SRKableSubmissionForm description"
+        "default": "SRKableSubmissionWebPart description"
       },
       "longDescription": {
-        "default": "SRKableSubmissionForm description"
+        "default": "SRKableSubmissionWebPart description"
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -35,6 +35,6 @@
     ]
   },
   "paths": {
-    "zippedPackage": "solution/sr-kable-submission-form.sppkg"
+    "zippedPackage": "solution/SRKableSubmissionWebPart.sppkg"
   }
 }

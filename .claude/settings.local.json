@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gulp bundle --ship)",
+      "Bash(gulp package-solution --ship)"
+    ]
+  }
+}

@@ -57,6 +57,7 @@ export class KableService {
     // Step 2: Create each Kable Content item sequentially
     for (const item of form.items) {
       const contentPayload: Record<string, any> = {
+        Title: '',
         KableSubmissionId: submissionId,  // lookup field — use Id suffix
         KableSection: item.section,
         Info: item.info,
@@ -82,7 +83,8 @@ export class KableService {
 
         // Step 4: Update KableImage thumbnail JSON
         const siteServerRelativeUrl = new URL(this._siteUrl).pathname;
-        const listRelativeUrl = `${siteServerRelativeUrl}/Lists/${encodeURIComponent(this._contentListName)}/Attachments/${newItemId}/${encodeURIComponent(fileName)}`;
+        const listUrlName = this._contentListName.replace(/\s+/g, '');
+        const listRelativeUrl = `${siteServerRelativeUrl}/Lists/${listUrlName}/Attachments/${newItemId}/${encodeURIComponent(fileName)}`;
         const serverUrl = `https://${new URL(this._siteUrl).host}`;
 
         const kableImageJson = JSON.stringify({

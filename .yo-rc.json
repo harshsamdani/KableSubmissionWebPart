@@ -12,8 +12,8 @@
     "libraryId": "3f8bf2d6-3c3f-4512-84a1-73b1ca0024a4",
     "environment": "spo",
     "packageManager": "npm",
-    "solutionName": "SRKableSubmissionForm",
-    "solutionShortDescription": "SRKableSubmissionForm description",
+    "solutionName": "SRKableSubmissionWebPart",
+    "solutionShortDescription": "SRKableSubmissionWebPart description",
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "componentType": "webpart"
