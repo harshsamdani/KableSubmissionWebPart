@@ -3,7 +3,9 @@ import '@pnp/sp/webs';
 import '@pnp/sp/lists';
 import '@pnp/sp/items';
 import '@pnp/sp/fields';
-import '@pnp/sp/attachments';
+import '@pnp/sp/files';
+import '@pnp/sp/files/folder';
+import '@pnp/sp/folders';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { IKableSubmissionForm } from './IKableModels';
 
@@ -71,27 +73,25 @@ export class KableService {
 
       const newItemId: number = contentResult.ID || contentResult.data?.ID;
 
-      // Step 3: Upload image attachment if provided
+      // Step 3: Upload image to SiteAssets document library and update KableImage field
       if (item.imageFile) {
         const fileName = item.imageFile.name;
         const fileBuffer = await this._readFileAsArrayBuffer(item.imageFile);
-
-        await this._sp.web.lists
-          .getByTitle(this._contentListName)
-          .items.getById(newItemId)
-          .attachmentFiles.add(fileName, fileBuffer);
-
-        // Step 4: Update KableImage thumbnail JSON
-        const siteServerRelativeUrl = new URL(this._siteUrl).pathname;
-        const listUrlName = this._contentListName.replace(/\s+/g, '');
-        const listRelativeUrl = `${siteServerRelativeUrl}/Lists/${listUrlName}/Attachments/${newItemId}/${encodeURIComponent(fileName)}`;
+        const siteRelPath = new URL(this._siteUrl).pathname; // e.g. /sites/srkable
         const serverUrl = `https://${new URL(this._siteUrl).host}`;
+
+        // Upload to SiteAssets with a unique prefix so filenames never collide.
+        // Thumbnail fields require a document library URL — list attachment URLs do not render.
+        const uniqueFileName = `kable-${newItemId}-${fileName}`;
+        await this._sp.web
+          .getFolderByServerRelativePath(`${siteRelPath}/SiteAssets`)
+          .files.addUsingPath(uniqueFileName, fileBuffer, { Overwrite: true });
 
         const kableImageJson = JSON.stringify({
           type: 1,
           fileName: fileName,
           serverUrl: serverUrl,
-          serverRelativeUrl: listRelativeUrl,
+          serverRelativeUrl: `${siteRelPath}/SiteAssets/${uniqueFileName}`,
         });
 
         await this._sp.web.lists

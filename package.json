@@ -1,6 +1,6 @@
 {
   "name": "sr-kable-submission-form",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "engines": {
     "node": ">=16.13.0 <17.0.0"
