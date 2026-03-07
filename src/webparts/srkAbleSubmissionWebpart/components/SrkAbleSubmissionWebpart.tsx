@@ -12,27 +12,11 @@ import {
   SpinnerSize,
   Text,
   Separator,
-  DatePicker,
-  DayOfWeek,
-  IDatePickerStrings,
 } from 'office-ui-fabric-react';
 import { ISrkAbleSubmissionWebpartProps } from './ISrkAbleSubmissionWebpartProps';
 import { IContentItem, IKableSubmissionForm, SectionType } from './IKableModels';
 import { KableService } from './KableService';
 import ContentSection from './ContentSection';
-
-const DATE_PICKER_STRINGS: IDatePickerStrings = {
-  months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
-  shortMonths: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-  days: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-  shortDays: ['S','M','T','W','T','F','S'],
-  goToToday: 'Go to today',
-  prevMonthAriaLabel: 'Go to previous month',
-  nextMonthAriaLabel: 'Go to next month',
-  prevYearAriaLabel: 'Go to previous year',
-  nextYearAriaLabel: 'Go to next year',
-  closeButtonAriaLabel: 'Close date picker',
-};
 
 const SECTIONS: SectionType[] = ['News', 'Project', 'People'];
 
@@ -40,6 +24,7 @@ function makeEmptyItem(section: SectionType, order: number): IContentItem {
   return {
     clientId: `${section}-${Date.now()}-${Math.random()}`,
     section,
+    title: '',
     info: '',
     imageFile: null,
     imagePreviewUrl: '',
@@ -51,8 +36,7 @@ function makeEmptyItem(section: SectionType, order: number): IContentItem {
 function makeEmptyForm(): IKableSubmissionForm {
   return {
     title: '',
-    groupName: '',
-    publishedDate: null,
+    region: '',
     items: [],
   };
 }
@@ -63,7 +47,7 @@ const SrkAbleSubmissionWebpart: React.FC<ISrkAbleSubmissionWebpartProps> = (prop
   const { spfxContext, siteUrl, submissionsListName, contentListName } = props;
 
   const [form, setForm] = React.useState<IKableSubmissionForm>(makeEmptyForm);
-  const [groupNameOptions, setGroupNameOptions] = React.useState<IDropdownOption[]>([]);
+  const [regionOptions, setRegionOptions] = React.useState<IDropdownOption[]>([]);
   const [loadingChoices, setLoadingChoices] = React.useState<boolean>(true);
   const [status, setStatus] = React.useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = React.useState<string>('');
@@ -72,12 +56,12 @@ const SrkAbleSubmissionWebpart: React.FC<ISrkAbleSubmissionWebpartProps> = (prop
 
   const serviceRef = React.useRef<KableService | null>(null);
 
-  // Initialise KableService and load GroupName choices on mount / when props change
+  // Initialise KableService and load Region choices on mount / when props change
   React.useEffect(() => {
     serviceRef.current = new KableService(spfxContext, siteUrl, submissionsListName, contentListName);
     setLoadingChoices(true);
-    serviceRef.current.getGroupNameChoices().then((choices) => {
-      setGroupNameOptions(choices.map((c) => ({ key: c, text: c })));
+    serviceRef.current.getRegionChoices().then((choices) => {
+      setRegionOptions(choices.map((c) => ({ key: c, text: c })));
       setLoadingChoices(false);
     }).catch(() => {
       setLoadingChoices(false);
@@ -121,8 +105,8 @@ const SrkAbleSubmissionWebpart: React.FC<ISrkAbleSubmissionWebpartProps> = (prop
 
   const validate = (): boolean => {
     const errors: Record<string, string> = {};
-    if (!form.title.trim()) errors['title'] = 'Submission title is required.';
-    if (!form.groupName) errors['groupName'] = 'Group name is required.';
+    if (!form.title.trim()) errors['title'] = 'Group Name is required.';
+    if (!form.region) errors['region'] = 'Region is required.';
     if (form.items.length === 0) errors['items'] = 'Add at least one content item.';
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
@@ -203,7 +187,7 @@ const SrkAbleSubmissionWebpart: React.FC<ISrkAbleSubmissionWebpartProps> = (prop
         <Text variant="xLarge" styles={{ root: { fontWeight: 600 } }}>Submission Details</Text>
 
         <TextField
-          label="Submission Title"
+          label="Group Name"
           required
           placeholder="e.g. March 2025 Newsletter"
           value={form.title}
@@ -211,35 +195,19 @@ const SrkAbleSubmissionWebpart: React.FC<ISrkAbleSubmissionWebpartProps> = (prop
           errorMessage={validationErrors['title']}
         />
 
-        <Stack horizontal tokens={{ childrenGap: 24 }} wrap>
-          <Stack.Item grow={2} styles={{ root: { minWidth: 200 } }}>
-            {loadingChoices ? (
-              <Spinner size={SpinnerSize.small} label="Loading groups..." />
-            ) : (
-              <Dropdown
-                label="Group Name"
-                required
-                placeholder="Select a group"
-                options={groupNameOptions}
-                selectedKey={form.groupName || null}
-                onChange={(_, opt) => opt && setField('groupName', opt.key as string)}
-                errorMessage={validationErrors['groupName']}
-              />
-            )}
-          </Stack.Item>
-
-          <Stack.Item grow={1} styles={{ root: { minWidth: 180 } }}>
-            <DatePicker
-              label="Published Date"
-              placeholder="Select a date (optional)"
-              firstDayOfWeek={DayOfWeek.Monday}
-              strings={DATE_PICKER_STRINGS}
-              value={form.publishedDate || undefined}
-              onSelectDate={(date) => setField('publishedDate', date || null)}
-              formatDate={(d) => d ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}
-            />
-          </Stack.Item>
-        </Stack>
+        {loadingChoices ? (
+          <Spinner size={SpinnerSize.small} label="Loading regions..." />
+        ) : (
+          <Dropdown
+            label="Region"
+            required
+            placeholder="Select a region"
+            options={regionOptions}
+            selectedKey={form.region || null}
+            onChange={(_, opt) => opt && setField('region', opt.key as string)}
+            errorMessage={validationErrors['region']}
+          />
+        )}
       </Stack>
 
       <Separator />

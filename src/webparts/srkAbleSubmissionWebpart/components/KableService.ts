@@ -28,14 +28,14 @@ export class KableService {
     this._sp = spfi(siteUrl).using(SPFx(context));
   }
 
-  public async getGroupNameChoices(): Promise<string[]> {
+  public async getRegionChoices(): Promise<string[]> {
     try {
       const field = await this._sp.web.lists
         .getByTitle(this._submissionsListName)
-        .fields.getByInternalNameOrTitle('GroupName')();
+        .fields.getByInternalNameOrTitle('Region')();
       return (field as any).Choices || [];
     } catch (e) {
-      console.error('Failed to load GroupName choices', e);
+      console.error('Failed to load Region choices', e);
       return [];
     }
   }
@@ -44,11 +44,8 @@ export class KableService {
     // Step 1: Create the parent Kable Submissions item
     const submissionPayload: Record<string, any> = {
       Title: form.title,
-      GroupName: form.groupName,
+      Region: form.region,
     };
-    if (form.publishedDate) {
-      submissionPayload['PublishedDate'] = form.publishedDate.toISOString();
-    }
 
     const submissionResult = await this._sp.web.lists
       .getByTitle(this._submissionsListName)
@@ -59,7 +56,7 @@ export class KableService {
     // Step 2: Create each Kable Content item sequentially
     for (const item of form.items) {
       const contentPayload: Record<string, any> = {
-        Title: '',
+        Title: item.title,
         KableSubmissionId: submissionId,  // lookup field — use Id suffix
         KableSection: item.section,
         Info: item.info,

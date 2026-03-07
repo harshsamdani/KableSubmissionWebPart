@@ -11,6 +11,7 @@ export const LAYOUT_OPTIONS = [
 export interface IContentItem {
   clientId: string;
   section: SectionType;
+  title: string;
   info: string;
   imageFile: File | null;
   imagePreviewUrl: string;
@@ -20,7 +21,6 @@ export interface IContentItem {
 
 export interface IKableSubmissionForm {
   title: string;
-  groupName: string;
-  publishedDate: Date | null;
+  region: string;
   items: IContentItem[];
 }

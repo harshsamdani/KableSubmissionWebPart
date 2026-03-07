@@ -7,6 +7,7 @@ import {
   IconButton,
   Label,
   Text,
+  TextField,
 } from 'office-ui-fabric-react';
 import { RichText } from '@pnp/spfx-controls-react/lib/RichText';
 import { IContentItem, LAYOUT_OPTIONS } from './IKableModels';
@@ -64,19 +65,27 @@ export const ContentItemCard: React.FC<IContentItemCardProps> = ({ item, onChang
         }}
       />
 
+      {/* Title */}
+      <Stack.Item>
+        <TextField
+          label="Title"
+          placeholder="Section item title (optional)"
+          value={item.title}
+          onChange={(_, val) => onChange({ ...item, title: val || '' })}
+        />
+      </Stack.Item>
+
       {/* Rich text — Info */}
       <Stack.Item>
         <Label required>Content / Info</Label>
-        <div style={{ minHeight: 150, border: '1px solid #c8c6c4', borderRadius: 2 }}>
-          <RichText
-            value={item.info}
-            onChange={(newVal: string) => {
-              onChange({ ...item, info: newVal || '' });
-              return newVal;
-            }}
-            isEditMode={true}
-          />
-        </div>
+        <RichText
+          value={item.info}
+          onChange={(newVal: string) => {
+            onChange({ ...item, info: newVal || '' });
+            return newVal;
+          }}
+          isEditMode={true}
+        />
       </Stack.Item>
 
       {/* Image upload */}
